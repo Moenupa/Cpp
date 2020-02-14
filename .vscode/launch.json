@@ -1,7 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [{
-        "name": "(gdb) Launch", 
+        "name": "g++.exe build and debug active file", 
         "type": "cppdbg", 
         "request": "launch", 
         "program": "${fileDirname}/${fileBasenameNoExtension}.exe", 
@@ -9,10 +9,9 @@
         "stopAtEntry": false, 
         "cwd": "${workspaceFolder}", 
         "environment": [], 
-        "externalConsole": true, 
-        "internalConsoleOptions": "neverOpen", 
+        "externalConsole": false, 
         "MIMode": "gdb", 
-        "miDebuggerPath": "gdb.exe", 
+        "miDebuggerPath": "C:\\mingw-w64\\x86_64-8.1.0-win32-seh-rt_v6-rev0\\mingw64\\bin\\gdb.exe", 
         "setupCommands": [
             {
                 "description": "Enable pretty-printing for gdb",
@@ -20,6 +19,6 @@
                 "ignoreFailures": false
             }
         ],
-        "preLaunchTask": "Compile"
+        "preLaunchTask": "g++.exe build active file"
     }]
 }
