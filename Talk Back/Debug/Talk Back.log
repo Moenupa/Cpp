@@ -1,7 +1,0 @@
-﻿  Talk Back.cpp
-D:\Drive_comp\C\Talk Back\Talk Back.cpp(14,10): warning C4473: “scanf_s”: 没有为格式字符串传递足够的参数
-D:\Drive_comp\C\Talk Back\Talk Back.cpp(14,10): message : 占位符和其参数预计 2 可变参数，但提供的却是 1 参数
-D:\Drive_comp\C\Talk Back\Talk Back.cpp(14,10): message : 缺失的可变参数 2 为格式字符串“%s”所需
-D:\Drive_comp\C\Talk Back\Talk Back.cpp(14,10): message : 此参数用作缓冲区大小
-D:\Drive_comp\C\Talk Back\Talk Back.cpp(20,18): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-  Talk Back.vcxproj -> D:\Drive_comp\C\Talk Back\Debug\Talk Back.exe
