@@ -84,7 +84,6 @@ int main(void) {
         }
         break;
     }                                                   // initialize: board, choice, player1's piece, player2's piece
-
     for (int i=0; i<9; i++) {
         limit(piece1, piece2, i);                       // limit input to one in X\O
 
