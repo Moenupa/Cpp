@@ -13,16 +13,31 @@ features:
 
 #include <iostream>
 using namespace std;
-bool check(int choice[9],int i) {                       // check if the cell is already filled
+int winner(int board[]) {
+    int wins[8][3] = {
+        {0,1,2}, {3,4,5}, {6,7,8},                          // winning condition#123: rows
+        {0,3,6}, {1,4,7}, {2,5,8},                          // winning condition#456: columns
+        {0,4,8}, {2,4,6}                                    // winning condition#78: diagonals
+    };
+    int flag = 0;
+    for (auto &winNum : wins) {
+        if (board[winNum[0]] != 0 && board[winNum[0]] == board[winNum[1]] && board[winNum[1]] == board[winNum[2]]) {
+            flag = board[winNum[0]];
+            break;
+        }
+    }
+    return flag;
+}
+bool isVacant(int choice[9],int i) {                        // check if the cell is already filled
     bool flag = true;
     for (int iter=0;iter<i;iter++) {
         if (choice[iter] == choice[i]) {flag = false;}
     }
     return flag;
 }
-void show(int board[9],char piece1, char piece2) {      // interpret the board to human-readable format
+void printBoard(int board[9], char piece1, char piece2) {   // interpret the board to human-readable format
     char boardox[9];
-    for (int iter=0; iter<9; iter++) {
+    for (int iter=0; iter<9; iter++) {                      // translate number-board to ox-board
         switch(board[iter]){
             case 0:
                 boardox[iter] = ' ';
@@ -30,12 +45,12 @@ void show(int board[9],char piece1, char piece2) {      // interpret the board t
             case 1:
                 boardox[iter] = piece1;
                 break;
-            case -1:
+            case 2:
                 boardox[iter] = piece2;
                 break;
         }
     }
-    for (int i=0; i<9; i++) {
+    for (int i=0; i<9; i++) {                               // print formatted ox-board
         if (i%3 == 0) {
             cout << "\t " << boardox[i] << " | ";
         } else if (i%3 == 1) {
@@ -47,12 +62,12 @@ void show(int board[9],char piece1, char piece2) {      // interpret the board t
         }
     }
 }
-void limit (char piece1, char piece2, int i) {          // limit the input to O\X
+void limitInput (char piece1, char piece2, int i) {         // limit the input to O\X
     char input, correct;
     if (i%2 == 0) {correct = piece1;}
     else {correct = piece2;}
-    if (i != 0){
-        while (true){
+    if (i != 0) {
+        while (true) {
             cout << "Please enter " << correct << ": _\b";
             cin >> input;
             if (input != correct) {
@@ -69,7 +84,7 @@ int main(void) {
     char piece1 = ' ', piece2= ' ';
     cout << "Here is what the game board looks like with the IDs of each cell:\
     \n\t 1 | 2 | 3 \n\t--- --- ---\n\t 4 | 5 | 6 \n\t--- --- ---\n\t 7 | 8 | 9 \n";
-    while(true) {                                       // piece1 and piece2 to be O\X and X\O
+    while(true) {                                           // user select piece1 and piece2 to be O\X and X\O
         switch(piece1) {
             case 'O':
                 piece2 = 'X';
@@ -83,24 +98,33 @@ int main(void) {
                 continue;
         }
         break;
-    }                                                   // initialize: board, choice, player1's piece, player2's piece
+    }                                                       // already initialized: board, choice, player1's piece, player2's piece
     for (int i=0; i<9; i++) {
-        limit(piece1, piece2, i);                       // limit input to one in X\O
+        limitInput(piece1, piece2, i);                      // limit input to one in X\O
 
         cout << "Please enter the cell ID for your move: _\b";
-        cin >> choice[i];                               // store in array choice with sequence
+        cin >> choice[i];                                   // store in array choice in sequence of 0-8
 
-        if (choice[i]<1 || choice[i]>9) {
+        if (choice[i]<1 || choice[i]>9) {                   // check if input is valid
             cout << "Warning: invalid cell ID." << endl;
             i -= 1;
-        } else if ( check(choice, i) ) {
-            if (i%2 == 0) {board[choice[i]-1] = 1;}     // player1 assigned 1
-            else {board[choice[i]-1] = -1;}             // player2 assigned -1
-            show(board, piece1, piece2);                // interpret and print out the board
-            cout << "This is step " << i+1 << ", there are " << 9-i-1 << " more steps." << endl;
-        } else {                                          // if cell filled, show a warning and loop back
+        } else if ( isVacant(choice, i) ) {
+            if (i%2 == 0) {board[choice[i]-1] = 1;}         // player1 assigned 1
+            else {board[choice[i]-1] = 2;}                  // player2 assigned 2
+            printBoard(board, piece1, piece2);              // interpret and print out the board
+
+            if ( winner(board) == 0 ) {                     // no one wins, print progress
+                cout << "This is step " << i+1 << ", there are " << 9-i-1 << " more steps." << endl;
+            } else {                                        // oneside wins, stops the game
+                cout << "Player " << winner(board) << " wins!" << endl;
+                break;
+            }
+            
+        } else {                                            // if cell filled, show a warning and loop back
             cout << "Warning: cell already filled!" << endl;
             i -= 1;
         }
     }
 }
+
+

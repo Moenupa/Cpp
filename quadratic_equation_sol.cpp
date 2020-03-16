@@ -10,12 +10,8 @@ int main(){
 
     //gathering a, b, c
     cout << "Format : a x^2 + b x + c = 0" << endl;
-    cout << "Please enter a: _\b";
-    cin >> a;
-    cout << "Please enter b: _\b";
-    cin >> b;
-    cout << "Please enter c: _\b";
-    cin >> c;
+    cout << "Please enter a b c: _ _ _\b\b\b\b\b";
+    cin >> a >> b >> c;
 
     //judge if b^2-4ac>0
     dis = pow(b, 2) - 4*a*c;
