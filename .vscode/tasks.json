@@ -5,7 +5,7 @@
         "type": "shell",
         "label": "g++.exe build active file",
         "command": "C:\\Program Files (x86)\\mingw-w64\\i686-8.1.0-posix-dwarf-rt_v6-rev0\\mingw32\\bin\\g++.exe",
-        "args": ["-g", "${file}", "-o", "${fileDirname}\\exe\\${fileBasenameNoExtension}.exe"],
+        "args": ["-g", "${file}", "-o", "C:\\Github\\Cpp\\exe\\${fileBasenameNoExtension}.exe"],
         "options": {
           "cwd": "C:\\Program Files (x86)\\mingw-w64\\i686-8.1.0-posix-dwarf-rt_v6-rev0\\mingw32\\bin"
         },
