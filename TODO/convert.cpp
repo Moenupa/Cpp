@@ -13,3 +13,23 @@ What unit do you want to convert from?
 From unit (in, ft, mi, mm, cm, m, km, oz, lb, g, kg, tsp, tbsp, pint, gal): #cm
 To unit: #in
 */
+
+#include <iostream>
+using namespace std;
+
+void select () {
+    cout << "Select between:"
+         << "\n\tLength: in, ft, mi, mm, cm, m,  km"
+         << "\n\tWeight: oz, lb, g, kg, tsp, tbsp, pint, gal";
+
+}
+
+void weight () {
+
+}
+
+int main () {
+    cout << "What unit do you want to convert from?";
+
+    char u1, u2;
+}
