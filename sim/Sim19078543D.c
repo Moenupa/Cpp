@@ -38,15 +38,16 @@ int main (int argc, const char *argv[]) {
         return 1;                           // file loading error
     while (1) {
         fgets(buf, 100, fp);
-        proc = strtok(buf, " \n:");         // get instruction
-        data[0] = strtok(NULL, " \n$%%r(),");
-        data[1] = strtok(NULL, " \n$%%r(),");
-        data[2] = strtok(NULL, " \n$%%r(),");
-        data[3] = strtok(NULL, " \n$%%r(),");// get data
+        proc = strtok(buf, " \t\n:");         // get instruction
+        data[0] = strtok(NULL, " \t\n$%%(),");
+        data[1] = strtok(NULL, " \n$%%(),");
+        data[2] = strtok(NULL, " \n$%%(),");
+        data[3] = strtok(NULL, " \n$%%(),");// get data
         if (strncmp(proc, "L", 1)==0) {     // if label detected
             proc = data[0];                 // data position changes
             for (int i = 0; i < 3; i++) {data[i] = data[i + 1];}
         }
+        for (int i = 0; i < 4; i++) {data[i] = strtok(data[i], "r");}
         printf("%6s,%6s,%6s,%6s\n", proc, data[0], data[1], data[2]);
         if (strcmp(proc, "halt") == 0) {
             break;
@@ -57,21 +58,13 @@ int main (int argc, const char *argv[]) {
         } else if (strcmp(proc, "cmpq") == 0) {
             flag = arrR[atoi(data[1])] - arrR[atoi(data[0])];
         } else if (strcmp(proc, "je") == 0) {
-            if (flag==0) {
-                labelLine(data[0]);
-            }
+            if (flag==0) {labelLine(data[0]);}
         } else if (strcmp(proc, "jne") == 0) {
-            if (flag != 0) {
-                labelLine(data[0]);
-            }
+            if (flag != 0) {labelLine(data[0]);}
         } else if (strcmp(proc, "jg") == 0) {
-            if (flag>0) {
-                labelLine(data[0]);
-            }
+            if (flag>0) {labelLine(data[0]);}
         } else if (strcmp(proc, "jl") == 0) {
-            if (flag<0) {
-                labelLine(data[0]);
-            }
+            if (flag<0) {labelLine(data[0]);}
         } else if (strcmp(proc, "rrmovq") == 0) {
             arrR[atoi(data[1])] = arrR[atoi(data[0])];
         } else if (strcmp(proc, "irmovq") == 0) {
@@ -81,7 +74,6 @@ int main (int argc, const char *argv[]) {
         } else if (strcmp(proc, "mrmovq") == 0) {
             arrR[atoi(data[2])] = arrM[atoi(data[0])+arrR[atoi(data[1])]];
         }                                   // process instructions
-        sleep(1);
     }
     printTable();                           // format print arrR/arrM
     fclose(fp);
