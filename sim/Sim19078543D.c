@@ -38,7 +38,7 @@ int main (int argc, const char *argv[]) {
         return 1;                           // file loading error
     while (1) {
         fgets(buf, 100, fp);
-        proc = strtok(buf, " \t\n:");         // get instruction
+        proc = strtok(buf, " \t\n:");       // get instruction
         data[0] = strtok(NULL, " \t\n$%%(),");
         data[1] = strtok(NULL, " \n$%%(),");
         data[2] = strtok(NULL, " \n$%%(),");
