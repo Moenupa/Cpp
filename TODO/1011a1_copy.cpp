@@ -57,7 +57,13 @@ const vector<string> INFO = {
     "║          │     + Quiche or Pie            │       ║",
     "╚══════════╧════════════════════════════════╧═══════╝",
     "-I", "-E",
-    " ________         _______  ________      ________  ________  ________ _______      ",    "|\\_____  \\       /  ___  \\|\\_____  \\    |\\   ____\\|\\   __  \\|\\  _____\\\\  ___ \\     ",    " \\|___/  /|____ /__/|_/  /\\|____|\\ /_   \\ \\  \\___|\\ \\  \\|\\  \\ \\  \\__/\\ \\   __/|    ",    "     /  / /\\____\\__|//  / /     \\|\\  \\   \\ \\  \\    \\ \\   __  \\ \\   __\\\\ \\  \\_|/__  ",    "    /  / /\\|____|   /  /_/__   __\\_\\  \\   \\ \\  \\____\\ \\  \\ \\  \\ \\  \\_| \\ \\  \\_|\\ \\ ",    "   /__/ /          |\\________\\|\\_______\\   \\ \\_______\\ \\__\\ \\__\\ \\__\\   \\ \\_______\\",    "   |__|/            \\|_______|\\|_______|    \\|_______|\\|__|\\|__|\\|__|    \\|_______|",
+    " ________         _______  ________      ________  ________  ________ _______      ",
+    "|\\_____  \\       /  ___  \\|\\_____  \\    |\\   ____\\|\\   __  \\|\\  _____\\\\  ___ \\     ",
+    " \\|___/  /|____ /__/|_/  /\\|____|\\ /_   \\ \\  \\___|\\ \\  \\|\\  \\ \\  \\__/\\ \\   __/|    ",
+    "     /  / /\\____\\__|//  / /     \\|\\  \\   \\ \\  \\    \\ \\   __  \\ \\   __\\\\ \\  \\_|/__  ",
+    "    /  / /\\|____|   /  /_/__   __\\_\\  \\   \\ \\  \\____\\ \\  \\ \\  \\ \\  \\_| \\ \\  \\_|\\ \\ ",
+    "   /__/ /          |\\________\\|\\_______\\   \\ \\_______\\ \\__\\ \\__\\ \\__\\   \\ \\_______\\",
+    "   |__|/            \\|_______|\\|_______|    \\|_______|\\|__|\\|__|\\|__|    \\|_______|",
     "╔═════════════╤══════════════════╤══════════════════╗",
     "║   Welcome   │  0: Exit System  │  1: Start Order  ║",
     "╚═════════════╧══════════════════╧══════════════════╝",
@@ -137,7 +143,6 @@ string buf;
 
 void get_info(string key);
 void get_item(string code, int repeat);
-void clear_terminal();
 int main () {
     #ifdef _WIN32
         SetConsoleOutputCP (65001); // make sure utf-8 character display normally
@@ -151,7 +156,7 @@ int main () {
     int cur_cus;
     string cmd, tempOis, tempOrd = "";
     SYSIN: //
-        clear_terminal();
+        cout << "\033[2J\033[1;1H";
         get_info("-E"); // 退出或进入点单提示窗
         cout << "┃ Enter command index ┃ _\b";
         cin >> cmd;
@@ -159,7 +164,7 @@ int main () {
             cout << "Exit System." << endl;
             return 0;
         } else if (cmd.compare("1")==0) { // 1 点单
-            clear_terminal();
+            cout << "\033[2J\033[1;1H";
             goto OISIN;
         } else { // 否则重复
             cout << "┃ INVALID INPUT ┃ Please try again." << endl;
@@ -176,13 +181,13 @@ int main () {
             if (tempOis.compare(orders[i].ois)==0) {
                 cout << "Pick-Up Code already exists, try another one." << endl;
                 this_thread::sleep_for(chrono::seconds(2));
-                clear_terminal();
+                cout << "\033[2J\033[1;1H";
                 goto OISIN;
             }
         }
         orders.push_back(Customer());
         orders[cur_cus].init(tempOis); // 生成新对象并传入ois
-        clear_terminal();
+        cout << "\033[2J\033[1;1H";
     ORDIN:
         get_info("-I");
         cout << "┃ Enter Item Code ┃ __\b\b";
@@ -199,7 +204,7 @@ int main () {
         cout << "┃ Enter Order Command Index ┃ _\b";
         cin >> cmd;
         if (cmd.compare("0") == 0) { // stop: save orderings, then return to sysinput
-            clear_terminal();
+            cout << "\033[2J\033[1;1H";
             orders[cur_cus].check_set();
             get_info("-R");
             for (auto iter = orders[cur_cus].order.begin(); iter != orders[cur_cus].order.end(); iter++) { // 遍历所有ITEM
@@ -211,10 +216,10 @@ int main () {
             get_info("-S");
             goto PAYIN;
         } else if (cmd.compare("1") == 0) {   // make order, then setback to ordinput
-            clear_terminal();
+            cout << "\033[2J\033[1;1H";
             goto ORDIN;
         } else {                    // invalid input - loop back to ordinput
-            clear_terminal();
+            cout << "\033[2J\033[1;1H";
             cout << "┃ INVALID INPUT ┃ Please try again." << endl;
             this_thread::sleep_for(chrono::seconds(2));
             goto ORDLOOP;
@@ -260,11 +265,4 @@ void get_item(string code, int repeat) {
             }
         }
     }
-}
-void clear_terminal () {
-    #ifdef _WIN32
-        system("cls");
-    #else
-        system("clear");
-    #endif
 }

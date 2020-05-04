@@ -1,73 +1,21 @@
 #include <iostream>
-#include <cstdlib>
 using namespace std;
 
-int main()
-{
-	const vector<string> INFO = {
-    "-I",
-    "╔══════════╤════════════════════════════════╤═══════╗",
-    "║ ItemCode │              Name              │ Price ║",
-    "╟──────────┴────────────────────────────────┴───────╢",
-    "║ Section A: Sandwiches                             ║",
-    "╟──────────┬────────────────────────────────┬───────╢",
-    "║    A1    │ Cheese Veggie Sandwich         │  $30  ║",
-    "║    A2    │ Salmon & Cheese Sandwich       │  $34  ║",
-    "║    A3    │ Chicken Caesar Sandwich        │  $32  ║",
-    "╟──────────┴────────────────────────────────┴───────╢",
-    "║ Section B: Quiche, Pie & Bagel with Cream Cheese  ║",
-    "╟──────────┬────────────────────────────────┬───────╢",
-    "║    B1    │ (Quebec homemade) Quiche       │  $28  ║",
-    "║    B2    │ Bagel with Cream Cheese        │  $20  ║",
-    "║    B3    │ (East Village Chicken) Pie     │  $28  ║",
-    "╟──────────┴────────────────────────────────┴───────╢",
-    "║ Section C: Coffee, Tea, Hot Chocolate, Milk&Juice ║",
-    "╟──────────┬────────────────────────────────┬───────╢",
-    "║    C1    │ Coffee                         │  $36  ║",
-    "║    C2    │ Green Tea                      │  $28  ║",
-    "║    C3    │ Hot Chocolate                  │  $28  ║",
-    "║    C4    │ Milk                           │  $26  ║",
-    "║    C5    │ Juice                          │  $26  ║",
-    "╟──────────┴────────────────────────────────┴───────╢",
-    "║ Section S: Set Meals                              ║",
-    "╟──────────┬────────────────────────────────┬───────╢",
-    "║    S1    │ Refreshing Breakfast           │  $48  ║",
-    "║          │     + Coffee                   │       ║",
-    "║          │     + Bagel with Cream Cheese  │       ║",
-    "║    S2    │ Best Value Breakfast           │  $60  ║",
-    "║          │     + Milk                     │       ║",
-    "║          │     + Chicken Caesar Sandwich  │       ║",
-    "║          │     + Bagel with Cream Cheese  │       ║",
-    "║    S3    │ Veggie Lunch                   │  $50  ║",
-    "║          │     + Juice                    │       ║",
-    "║          │     + Cheese Veggie Sandwich   │       ║",
-    "║    S4    │ Power Lunch                    │  $90  ║",
-    "║          │     + Juice                    │       ║",
-    "║          │     + Coffee                   │       ║",
-    "║          │     + Salmon & Cheese Sandwich │       ║",
-    "║          │     + Pie                      │       ║",
-    "║    S5    │ Afternoon Tea Set              │  $50  ║",
-    "║          │     + Coffee or Tea            │       ║",
-    "║          │     + Quiche or Pie            │       ║",
-    "╚══════════╧════════════════════════════════╧═══════╝",
-    "-I", "-E",
-    "╔═════════════╤══════════════════╤══════════════════╗",
-    "║   Command   │  0: Exit System  │  1: Start Order  ║",
-    "╚═════════════╧══════════════════╧══════════════════╝",
-    "-E", "-O",
-    "╔═════════════╤══════════════════╤══════════════════╗",
-    "║   Command   │   0: Check out   │   1: Continue    ║",
-    "╚═════════════╧══════════════════╧══════════════════╝",
-    "-O", "-R",
-    "╔═══════════════════════════════════════════════════╗",
-    "║                  Checkout Review                  ║",
-    "╟──────────┬────────────────────────────────┬───────╢",
-    "║ ItemCode │              Name              │ Price ║",
-    "╟──────────┼────────────────────────────────┼───────╢",
-    "-R", "-S",
-    "╚══════════╧════════════════════════════════╧═══════╝",
-    "-S", "-P",
-    "╔═════════════╤══════════════════╤══════════════════╗",
-    "║   Command   │   0: Withdrawn   │    1: Confirm    ║",
-    "╚═════════════╧══════════════════╧══════════════════╝", "-P"};
+struct customer {
+    // a customer
+    string name;
+    string order;
+    string price;
+};
+
+int main() {
+    customer arrCustomer[20];
+    string ois;
+    for (int i = 0; i < 20; i++) {
+        arrCustomer[i][0] = ois;
+        // order
+        // cal price
+    }
+
+    return 0;
 }

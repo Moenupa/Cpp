@@ -1,0 +1,12 @@
+"halt"1
+"addq"3
+"subq"3
+"cmpq"3
+"je"2
+"jne"2
+"jg"2
+"jl"2
+"rrmovq"3
+"irmovq"3
+"rmmovq"4
+"mrmovq"4

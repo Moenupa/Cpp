@@ -48,7 +48,6 @@ int main (int argc, const char *argv[]) {
             for (int i = 0; i < 3; i++) {data[i] = data[i + 1];}
         }
         for (int i = 0; i < 4; i++) {data[i] = strtok(data[i], "r");}
-        printf("%6s,%6s,%6s,%6s\n", proc, data[0], data[1], data[2]);
         if (strcmp(proc, "halt") == 0) {
             break;
         } else if (strcmp(proc, "addq") == 0) {
