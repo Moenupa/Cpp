@@ -143,6 +143,7 @@ class Customer {
         }
 };
 vector<Customer> orders = {};                           // all orders will be saved to this vector
+// NOTE: in real application this should be put into a file for transmission
 string buf;                                             // handle input and prevent excecptions
 // init global class type and variables
 
