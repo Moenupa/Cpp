@@ -9,17 +9,20 @@ class Customer:
 
 # Part 1: System control ###############################################
     print command meaning for index
-    input cmd:
-        0: exit;
-        1: start order;
-        else: prompt and repeat
+    do
+    {   cmd <- input
+        if cmd == 0:
+            exit
+        else if cmd == 1:
+            break
+    } while (input != 0 and input != 1)
 
 # Part 2: OIS ##########################################################
-    print command meaning for index
-    input ois:
-        if occupied: prompt and repeat
-        if vacant: create a new Customer instance
-            use Part 3 to handle ordering
+    do
+    {
+        ois <- input
+    } while (ois not occupied)
+    create Customer(new ois)
 
 # Part 3: Ordering #####################################################
     print command meaning for index

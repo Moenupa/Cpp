@@ -86,7 +86,7 @@ const vector<string> INFO = {
 map<string, int> price = {{"A1", 30}, {"A2", 34}, {"A3", 32}, {"B1", 28}, {"B2", 20}, {"B3", 28}, {"C1", 36}, {"C2", 28}, {"C3", 28}, {"C4", 26}, {"C5", 26}, {"S1", 48}, {"S2", 60}, {"S3", 50}, {"S4", 90}, {"S5", 50}};
 // init preset resources
 
-class Customer {
+class NewOrder {
     public:
         string ois;                                     // customer ois
         map<string, int> order;                         // order details
@@ -142,7 +142,7 @@ class Customer {
             return total;
         }
 };
-vector<Customer> orders = {};                           // all orders will be saved to this vector
+vector<NewOrder> orders = {};                           // all orders will be saved to this vector
 // NOTE: in real application this should be put into a file for transmission
 string buf;                                             // handle input and prevent excecptions
 // init global class type and variables
@@ -199,8 +199,8 @@ int main () {
                 goto OISIN;
             }
         }
-        orders.push_back(Customer());
-        orders[cur_cus].init(tempOis);                  // create new Customer and set its ois
+        orders.push_back(NewOrder());
+        orders[cur_cus].init(tempOis);                  // create new NewOrder and set its ois
         clearTerminal();
     ORDIN:                                              // order: ask for item code
         printCmd("-I");
