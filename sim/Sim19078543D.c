@@ -4,6 +4,7 @@
 short arrR[8] = {0, 0, 0, 0, 0, 0, 0, 0}, arrM[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 FILE *fp, *fp1;
 char buf[100], *proc = NULL, *data[4] = {NULL, NULL, NULL, NULL};
+int i;
 void labelLine (const char *label) {
     rewind(fp);
     rewind(fp1);                            // reset fp/alternative fp
@@ -14,18 +15,18 @@ void labelLine (const char *label) {
         proc = strtok(buf1, " \n:,");
         count++;
     } while (strcmp(proc, label) != 0);
-    for (int i = 0; i < count-1; i++) {     // set fp to the labelLine
+    for (i = 0; i < count-1; i++) {     // set fp to the labelLine
         fgets(buf, 100, fp);
     }
 }
 void printTable () {
     printf("%%r0..7: ");                    // print arrR
-    for (int i = 0; i < 8; i++) {
+    for (i = 0; i < 8; i++) {
         if (i!=7) printf("%d ", arrR[i]);
         else printf("%d\n", arrR[i]);
     }
     printf("M0..15: ");                     // print arrM
-    for (int i = 0; i < 16; i++) {
+    for (i = 0; i < 16; i++) {
         if (i!=15) printf("%d ", arrM[i]);
         else printf("%d\n", arrM[i]);
     }
@@ -45,9 +46,9 @@ int main (int argc, const char *argv[]) {
         data[3] = strtok(NULL, " \n$%%(),");// get data
         if (strncmp(proc, "L", 1)==0) {     // if label detected
             proc = data[0];                 // data position changes
-            for (int i = 0; i < 3; i++) {data[i] = data[i + 1];}
+            for (i = 0; i < 3; i++) {data[i] = data[i + 1];}
         }
-        for (int i = 0; i < 4; i++) {data[i] = strtok(data[i], "r");}
+        for (i = 0; i < 4; i++) {data[i] = strtok(data[i], "r");}
         if (strcmp(proc, "halt") == 0) {
             break;
         } else if (strcmp(proc, "addq") == 0) {

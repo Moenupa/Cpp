@@ -1,7 +1,0 @@
-    irmovq  $1, %r0
-    irmovq  $0, %r1
-    irmovq  $11, %r2
-L1: addq    %r0, %r1
-    cmpq    %r1, %r2
-    jne     .L1
-    halt
