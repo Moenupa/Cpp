@@ -1,34 +1,40 @@
+/*
+@author: WANG Meng
+@USE: COMP1011 Assignment 2
+*/
+
 #include <iostream>
 #include <vector>
 #include <string>
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
+#include <windows.h>
 using namespace std;
 
 const int LINES[8][3] = {
-    {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
-    {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
-    {0, 4, 8}, {2, 4, 6}
+    {0, 1, 2}, {3, 4, 5}, {6, 7, 8},                                        // vertical winning situations
+    {0, 3, 6}, {1, 4, 7}, {2, 5, 8},                                        // horizontal winning situations
+    {0, 4, 8}, {2, 4, 6}                                                    // diagnal winning situations
 };
 class Game
 {
     public:
-        int gameboard[9];
-        vector<int> status;
-        char piece[3];
-        int result;
-        int process;
+        int gameboard[9];                                                   // 1: player1, -1: player2, 0: vacant
+        vector<int> status;                                                 // 8 ints, represent winning condition
+        char piece[3];                                                      // 'O', 'X' or ' '
+        int result;                                                         // 1: player1, -1: player2
+        int process;                                                        // 0~9; number of steps taken
 
     public:
-        void init()
+        void init()                                                         // initializing all variables
         {
             for (int i = 0; i < 9; i++)
                 gameboard[i] = 0;
 
             piece[1] = ' ';
             srand(time(NULL));
-            int dice = rand() % 2;
+            int dice = rand() % 2;                                          // random 'O' and 'X' for players
             if (dice == 0)
             {
                 piece[0] = 'O';
@@ -43,19 +49,19 @@ class Game
             process = 0;
             result = 0;
         }
-        void cal_state()
+        void cal_status()                                                   // calculate the winning possibility
         {
             status.clear();
             int sum = 0;
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)                                     // -3~3 to represent possibility to win
             {
                 sum = 0;
                 for (int j = 0; j < 3; j++) sum += gameboard[LINES[i][j]];
-                if (abs(sum)==3) result = sum / 3;
+                if (abs(sum)==3) result = sum / 3;                          // reached 3 or -3 meaning win
                 status.push_back(sum);
             }
         }
-        void printboard(char mode)
+        void print_board(char mode)                                         // format printout of the board
         {
             switch (mode)
             {
@@ -79,7 +85,7 @@ class Game
                     break;
             }
         }
-        void get_input()
+        void get_input()                                                    // get input from the user
         {
             int playerpos;
             process += 1;
@@ -101,14 +107,14 @@ class Game
                 else cout << "Invalid position index. Please try again." << endl;
             }
         }
-        void botplay()
+        void bot_play()                                                     // bot simulator
         {
             process += 1;
-            cal_state();
+            cal_status();
             int bot_pos = rand() % (9 - process), vacantpos = 0, strategy = 0, dangerline = 0;
             for (int i = 0; i < 8; i++)
             {
-                if (status[i] == -2)
+                if (status[i] == -2)                                        // two bot pieces in a line
                 {
                     dangerline = i;
                     strategy = -1;
@@ -117,23 +123,16 @@ class Game
                 dangerline = (status[i] > strategy) ? i : dangerline;
                 strategy = (status[i] > strategy) ? status[i] : strategy;
             }
-
-            if (strategy == -1)
+            if (strategy == -1)                                             // attack
             {
                 if (gameboard[LINES[dangerline][1]] == 0)
-                {
                     gameboard[LINES[dangerline][1]] = (process % 2) * 2 - 1;
-                }
                 else if (gameboard[LINES[dangerline][0]] == 0)
-                {
                     gameboard[LINES[dangerline][0]] = (process % 2) * 2 - 1;
-                }
                 else if (gameboard[LINES[dangerline][2]] == 0)
-                {
                     gameboard[LINES[dangerline][2]] = (process % 2) * 2 - 1;
-                }
             }
-            else if (strategy == 0)
+            else if (strategy == 0)                                         // random
             {
                 for (int i = 0; i < 9; i++)
                 {
@@ -141,20 +140,14 @@ class Game
                     if (bot_pos == vacantpos) gameboard[i] = (process % 2) * 2 - 1;
                 }
             }
-            else
+            else                                                            // defend
             {
                 if (gameboard[LINES[dangerline][1]] == 0)
-                {
                     gameboard[LINES[dangerline][1]] = (process % 2) * 2 - 1;
-                }
                 else if (gameboard[LINES[dangerline][0]] == 0)
-                {
                     gameboard[LINES[dangerline][0]] = (process % 2) * 2 - 1;
-                }
                 else if (gameboard[LINES[dangerline][2]] == 0)
-                {
                     gameboard[LINES[dangerline][2]] = (process % 2) * 2 - 1;
-                }
                 else
                 {
                     for (int i = 0; i < 9; i++)
@@ -165,9 +158,10 @@ class Game
                 }
             }
         }
-        void show_win()
+        void show_win()                                                     // show winning side/draw
         {
-            cout << piece[result + 1] << " Wins!" << endl;
+            if (result == 0) cout << "Game ends in a TIE." << endl;
+            else cout << piece[result + 1] << " Wins!" << endl;
         }
 };
 Game currentgame;
@@ -179,9 +173,19 @@ void pve();
 
 int main ()
 {
+    #ifdef _WIN32
+        SetConsoleOutputCP (65001);
+        CONSOLE_FONT_INFOEX info = { 0 };
+        info.cbSize = sizeof(info);
+        info.dwFontSize.Y = 16;
+        info.FontWeight = FW_NORMAL;
+        wcscpy(info.FaceName, L"Consolas");
+        SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), NULL, &info);
+    #endif
+
     string cmd;
     cout << "\tWelcome to the Tic-Tac-Toe game!\n\tIn this game, by , players try to win by placing O or X pieces on a 3x3 gameboard to get his own pieces in a line, which can be vertical, horizontal or diagnal with 3 same pieces\n\tFollow the guide to execute your desired instructions."<< endl;
-    SLET:
+    SLET:                                                                   // select to start game or quit
         cout << "\
         ╔═════════════╤══════════════════╤══════════════════╗\n\
         ║    Index    │     0: Exit      │     1: Begin     ║\n\
@@ -200,7 +204,7 @@ int main ()
             cout << "Invalid input, please try again." << endl;
             goto SLET;
         }
-    MODE:
+    MODE:                                                                   // choose gamemode
         cout << "\
         ╔═════════════╤══════════════════╤══════════════════╗\n\
         ║    Index    │   1: Fight Bot   │    2: 1v1 PvP    ║\n\
@@ -213,40 +217,40 @@ int main ()
             cout << "Invalid Input, please try again." << endl;
             goto MODE;
         }
-    WIN:
-        currentgame.printboard('P');
+    WIN:                                                                    // show winning side and loop back
+        currentgame.print_board('P');
         currentgame.show_win();
         goto SLET;
 }
-void pve()
+void pve()                                                                  // run the game in PVE mode
 {
     currentgame.init();
-    currentgame.printboard('I');
+    currentgame.print_board('I');
     cout << "Computer choose " << currentgame.piece[0] << "." << endl;
     while (currentgame.process != 9)
     {
         if (currentgame.process % 2 == 0)
         {
-            currentgame.printboard('P');
+            currentgame.print_board('P');
             currentgame.get_input();
         }
         else
         {
-            currentgame.botplay();
+            currentgame.bot_play();
         }
-        currentgame.cal_state();
+        currentgame.cal_status();
         if (abs(currentgame.result) == 1) return;
     }
 }
-void pvp()
+void pvp()                                                                  // run the game in PVP mode
 {
     currentgame.init();
-    currentgame.printboard('I');
+    currentgame.print_board('I');
     while (currentgame.process != 9)
     {
-        currentgame.printboard('P');
+        currentgame.print_board('P');
         currentgame.get_input();
-        currentgame.cal_state();
+        currentgame.cal_status();
         if (abs(currentgame.result) == 1) return;
     }
 }
