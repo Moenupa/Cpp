@@ -1,12 +1,16 @@
 /*
 @author: WANG Meng
-@USE: COMP1011 Assignment 2
+@USE: COMP1011 Assignment Extra
 */
 
 #include <iostream>
 #include "gameboard.h"
 #include <windows.h>
 #include <string>
+
+void pve(Game currentgame, int difficulty);
+void pvp(Game currentgame);
+using namespace std;
 
 int main ()
 {
@@ -59,9 +63,7 @@ int main ()
         ╚═════════════╧══════════════════╧══════════════════╝" << endl;
         cin >> cmd;
         if (cmd.compare("1") == 0) pve(currentgame, 1);
-        else if (cmd.compare("0")==0) pve(currentgame, 2);
-    WIN:                                                                    // show winning side and loop back
-        currentgame.print_board('P');
-        currentgame.show_win();
+        else if (cmd.compare("0") == 0) pve(currentgame, 2);
+    LOOP:                                                                   // show winning side and loop back
         goto SLET;
 }
